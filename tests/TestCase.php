@@ -3,12 +3,9 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Orchestra\Testbench\Concerns\WithWorkbench;
 
 class TestCase extends BaseTestCase
 {
-    use WithWorkbench;
-
     /**
      * Get package providers.
      *

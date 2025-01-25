@@ -50,8 +50,8 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer remove orchestra/testbench --dev
-          composer require laravel/framework:^${{ matrix.laravel }} \
-                           orchestra/testbench:*  \
+          composer require "laravel/framework:^${{ matrix.laravel }}" \
+                           "orchestra/testbench:>7.0"  \
                     --update-with-all-dependencies \
                     --${{ matrix.packages }} \
                     --no-interaction
