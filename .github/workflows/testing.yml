@@ -1,0 +1,60 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to test'
+        required: true
+        default: 'main'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [ '8.0', '8.1', '8.2', '8.3', '8.4' ]
+        laravel: [ '9.0', '10.0', '11.0' ]
+        packages: [ 'prefer-lowest', 'prefer-stable' ]
+        exclude:
+          - php: '8.0'
+            laravel: '10.0'
+          - php: '8.0'
+            laravel: '11.0'
+          - php: '8.1'
+            laravel: '11.0'
+          - php: '8.4'
+            laravel: '9.0'
+
+    name: php:${{ matrix.php }} laravel:${{ matrix.laravel }} - ${{ matrix.packages }}
+
+    steps:
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml, json, yaml
+          ini-values: post_max_size=256M, upload_max_filesize=256M
+          coverage: none
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+
+      - name: Install Composer dependencies
+        run: |
+          composer remove orchestra/testbench --dev
+          composer require "laravel/framework:^${{ matrix.laravel }}" \
+                           "orchestra/testbench:>7.0"  \
+                    --update-with-all-dependencies \
+                    --${{ matrix.packages }} \
+                    --no-interaction
+
+      - name: Run tests
+        run: vendor/bin/phpunit
