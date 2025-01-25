@@ -1,0 +1,41 @@
+{
+    "name": "mikegarde/laravel-openapi-export",
+    "description": "Laravel package to export OpenAPI/Swagger documentation from routes",
+    "keywords": [
+        "laravel",
+        "openapi",
+        "swagger"
+    ],
+    "type": "library",
+    "require": {
+        "php": "^8.0",
+        "symfony/yaml": ">6.0",
+        "laravel/framework": "^11.0",
+        "orchestra/testbench": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MikeGarde\\OpenApiExport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MikeGarde\\OpenApiExport\\OpenApiServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "license": "GPL-3.0-only",
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "mikegarde/country-codes": "^0.6.1"
+    }
+}
