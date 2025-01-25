@@ -15,6 +15,9 @@
     "require-dev": {
         "orchestra/testbench": ">7.0"
     },
+    "conflict": {
+        "nesbot/carbon": "<2.62.1"
+    },
     "autoload": {
         "psr-4": {
             "MikeGarde\\OpenApiExport\\": "src/"
